@@ -32,6 +32,7 @@ jobs:
         run: |
           python tools/validate_network.py
           python -m unittest discover -s tools -p "test_*.py" -v
+          python -m unittest riemann_network.test_client -v
       - name: Generate dashboard data
         run: python tools/build_site_data.py
       - uses: actions/configure-pages@v5
