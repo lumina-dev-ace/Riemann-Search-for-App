@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "status": "uninitialized",
+  "highest_verified_index": null,
+  "updated_utc": null,
+  "source_commit": null,
+  "record_count": 0,
+  "note": "Awaiting import and validation of real, contiguous research records. No starting checkpoint is assumed."
+}
