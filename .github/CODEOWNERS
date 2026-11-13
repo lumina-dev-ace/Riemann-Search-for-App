@@ -1,0 +1,6 @@
+# Maintainer review is required for shared checkpoint and validation changes.
+* @lumina-dev-ace
+/global/ @lumina-dev-ace
+/schemas/ @lumina-dev-ace
+/tools/ @lumina-dev-ace
+/.github/ @lumina-dev-ace
