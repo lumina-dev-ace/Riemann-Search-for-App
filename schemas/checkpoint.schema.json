@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lumina-dev-ace/Riemann-Search-for-App/blob/main/schemas/checkpoint.schema.json",
+  "title": "RiemannSearch Global Checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "highest_verified_index", "updated_utc", "source_commit", "record_count", "note"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "status": { "enum": ["uninitialized", "initialized"] },
+    "highest_verified_index": { "type": ["integer", "null"], "minimum": 1 },
+    "updated_utc": { "type": ["string", "null"], "format": "date-time" },
+    "source_commit": { "type": ["string", "null"] },
+    "record_count": { "type": "integer", "minimum": 0 },
+    "note": { "type": "string" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "uninitialized" } } },
+      "then": { "properties": { "highest_verified_index": { "type": "null" } } }
+    },
+    {
+      "if": { "properties": { "status": { "const": "initialized" } } },
+      "then": {
+        "properties": {
+          "highest_verified_index": { "type": "integer", "minimum": 1 },
+          "updated_utc": { "type": "string", "format": "date-time" },
+          "source_commit": { "type": "string", "minLength": 7 }
+        }
+      }
+    }
+  ]
+}
