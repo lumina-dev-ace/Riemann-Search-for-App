@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public progress dashboard for the RiemannSearch numerical research network.">
+  <meta name="theme-color" content="#0b1220">
+  <title>RiemannSearch Research Network</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="RiemannSearch home">
+      <span class="brand-mark">ζ</span>
+      <span>RiemannSearch <small>RESEARCH NETWORK</small></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="#progress">Progress</a>
+      <a href="#method">Method</a>
+      <a href="https://github.com/lumina-dev-ace/Riemann-Search-for-App" target="_blank" rel="noreferrer">Repository ↗</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">OPEN NUMERICAL RESEARCH · PUBLIC DATA</p>
+      <h1>One sequence.<br><span>Carefully verified.</span></h1>
+      <p class="intro">A shared record of indexed Riemann zeta zero computations, with transparent verification metadata and a checkpoint that advances only when the sequence is complete.</p>
+      <div class="status-line"><span id="status-dot" class="dot"></span><span id="network-status" role="status">Loading network status…</span></div>
+    </section>
+
+    <section id="progress" class="section">
+      <div class="section-heading">
+        <div><p class="eyebrow">THE GLOBAL CHECKPOINT</p><h2>Verified progress</h2></div>
+        <span class="live-label">PUBLIC REPOSITORY DATA</span>
+      </div>
+      <div class="checkpoint-card">
+        <div class="checkpoint-label">HIGHEST CONTIGUOUS VERIFIED INDEX</div>
+        <div id="checkpoint-value" class="checkpoint-value">—</div>
+        <p id="checkpoint-note" class="muted">Waiting for validated network data.</p>
+        <div class="card-footer"><span>Last checkpoint update</span><strong id="updated-at">Not initialized</strong></div>
+      </div>
+      <div class="stats-grid">
+        <article class="stat-card"><span>Research records</span><strong id="record-count">0</strong><small>Accepted JSON record files</small></article>
+        <article class="stat-card"><span>Entry rows</span><strong id="entry-count">0</strong><small>Rows contained in published records</small></article>
+        <article class="stat-card"><span>Arb-verified entries</span><strong id="verified-count">0</strong><small>Declared interval-verified rows</small></article>
+        <article class="stat-card"><span>Contributors</span><strong id="contributor-count">0</strong><small>Distinct public display names</small></article>
+      </div>
+    </section>
+
+    <section class="section split" id="method">
+      <div>
+        <p class="eyebrow">HOW TO READ THE NUMBER</p>
+        <h2>Progress is not a guess.</h2>
+        <p>The checkpoint represents the highest index for which every preceding index is present, unique, and marked as verified by the FLINT/Arb interval workflow. Candidates, partial ranges, and attempted computations do not advance it.</p>
+      </div>
+      <aside class="notice">
+        <strong>Scientific limitation</strong>
+        <p>Automated data validation checks structure and declared provenance. It does not independently recompute the zeta function, and finite numerical verification is not a proof of the Riemann Hypothesis.</p>
+      </aside>
+    </section>
+
+    <section class="section">
+      <div class="section-heading"><div><p class="eyebrow">PUBLIC ACTIVITY</p><h2>Recent research records</h2></div></div>
+      <div id="records-list" class="records-list"><p class="muted">Loading records…</p></div>
+    </section>
+  </main>
+
+  <footer>
+    <span>RiemannSearch Research Network</span>
+    <span><a href="https://github.com/lumina-dev-ace/Riemann-Search-for-App">Open data and validation code on GitHub ↗</a></span>
+    <span class="footer-note">Numerical research information · Not a proof of RH</span>
+  </footer>
+</body>
+</html>
