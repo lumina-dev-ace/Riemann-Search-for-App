@@ -1,0 +1,54 @@
+name: Bug report
+description: Report a reproducible problem with the public data tools or progress dashboard.
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include private databases, credentials, personal information, or unredacted logs.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Research data validator
+        - Read-only network client
+        - Progress dashboard
+        - GitHub Actions workflow
+        - Documentation
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Commit or version
+      description: Provide the commit SHA or version, if known.
+    validations:
+      required: false
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include a minimal example without private data.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized error message
+      description: Remove tokens, usernames, file paths, and personal information before sharing.
+    validations:
+      required: false
