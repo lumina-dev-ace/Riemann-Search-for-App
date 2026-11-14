@@ -2,26 +2,48 @@ name: Validate research data
 
 on:
   push:
-    branches: [main]
+    branches: [main, "hardening/**"]
   pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
+    name: validate
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
-      - name: Validate network records and checkpoint
+
+      - name: Check Python syntax
+        run: python -m compileall -q tools riemann_network
+
+      - name: Validate research records and checkpoint
         run: python tools/validate_network.py
+
       - name: Test repository validator
         run: python -m unittest discover -s tools -p "test_*.py" -v
-      - name: Test desktop network client
+
+      - name: Test read-only desktop network client
         run: python -m unittest riemann_network.test_client -v
+
       - name: Build dashboard data
         run: python tools/build_site_data.py
+
+      - name: Validate dashboard structure and data
+        run: python tools/validate_site.py
+
+      - name: Check dashboard JavaScript syntax
+        run: node --check website/app.js

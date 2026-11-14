@@ -7,7 +7,10 @@ on:
       - "website/**"
       - "global/**"
       - "records/**"
+      - "schemas/**"
       - "tools/build_site_data.py"
+      - "tools/validate_network.py"
+      - "tools/validate_site.py"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -22,31 +25,49 @@ concurrency:
 
 jobs:
   build:
+    name: build-site
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
+
       - name: Validate repository data
         run: |
           python tools/validate_network.py
           python -m unittest discover -s tools -p "test_*.py" -v
           python -m unittest riemann_network.test_client -v
+
       - name: Generate dashboard data
         run: python tools/build_site_data.py
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - uses: actions/upload-pages-artifact@v3
+
+      - name: Validate generated dashboard
+        run: |
+          python tools/validate_site.py
+          node --check website/app.js
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload website artifact
+        uses: actions/upload-pages-artifact@v5
         with:
           path: website
+
   deploy:
+    name: deploy-site
     needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
