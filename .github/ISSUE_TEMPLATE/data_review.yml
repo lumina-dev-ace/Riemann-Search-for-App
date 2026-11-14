@@ -1,0 +1,34 @@
+name: Research data review question
+description: Ask a question about the public data format or validation result. Submit actual data changes through a pull request.
+title: "[Data review]: "
+labels: ["research-data", "question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This issue form is for questions, not a place to upload private research databases or claim a new global checkpoint.
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      options:
+        - Data schema question
+        - Validator behavior
+        - Checkpoint consistency
+        - Reproducibility and provenance
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Public context
+      description: Link to public record files or commits. Do not include credentials, personal data, or local database files.
+    validations:
+      required: false
