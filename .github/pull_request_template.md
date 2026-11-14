@@ -1,13 +1,14 @@
 ## Research data or network change
 
 ### Change type
-- [ ] New research record
+- [ ] New research range
 - [ ] Checkpoint advancement proposal
 - [ ] Schema / validator change
-- [ ] Documentation or website change
+- [ ] Documentation or progress site change
+- [ ] Optional contribution-service change
 - [ ] Other
 
-### Research record details (if applicable)
+### Research range details (if applicable)
 - Record file(s):
 - Inclusive index range:
 - FLINT/Arb backend and precision:
@@ -16,12 +17,13 @@
 ### Checkpoint proposal (if applicable)
 - Current global checkpoint:
 - Proposed checkpoint:
-- Evidence that every intervening index is present exactly once and Arb-verified:
+- Evidence every intervening index is present exactly once and Arb-rechecked:
 
 ### Review checklist
 - [ ] No local database, private experiment file, personal information, or credential is included.
-- [ ] Records follow the published schema.
-- [ ] `python tools/validate_network.py` passes.
-- [ ] Both validator and desktop-client tests pass.
+- [ ] Records follow the versioned schema under `data/schema/`.
+- [ ] `python tools/validate_research_repository.py` passes.
+- [ ] `python -m unittest discover -s tests -p "test_*.py" -v` passes.
+- [ ] The progress site validator and JavaScript syntax check pass.
 - [ ] The proposal does not decrease or skip the global checkpoint.
-- [ ] Numerical claims are described as finite numerical verification, not proof of RH.
+- [ ] Numerical claims describe finite numerical verification, not proof of RH.

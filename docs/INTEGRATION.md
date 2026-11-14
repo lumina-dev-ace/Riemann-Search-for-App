@@ -1,33 +1,11 @@
-# Desktop application integration
+# Desktop integration
 
-This repository currently includes an initial credential-free read client in `riemann_network/`, a preliminary checkpoint/record contract, a structural validator, and a static dashboard.
+The desktop reads the public repository `lumina-dev-ace/Riemann-Search-for-App` without authorization. It resolves the manifest commit, fetches immutable content by commit SHA, validates every accepted-range file, and stores a validated cache separately from local research. If live import fails, the UI reports the error and retains the prior local database and cache as stale display data.
 
-**Important:** the final desktop application handoff describes a different canonical format based on `data/global_manifest.json`, `data/ranges/`, `data/schema/`, and `progress/`. The current repository's `global/checkpoint.json` and `records/` format is not interchangeable. The desktop integration phase must reconcile the formats before using this repository as the authoritative research network. Do not publish real app-generated data through both formats.
+Global research begins at the manifest's first-required index. That boundary does not mean the index has been computed. The manifest checkpoint remains `null` until maintainers accept genuine contiguous results. Desktop indexes are exact decimal strings throughout JSON and range validation.
 
-## Intended public access
+Local experiments run and persist when GitHub is unavailable. Public reads run in a worker thread so they do not block the UI. Export writes a validated JSON record without publishing it.
 
-Public browsing and downloading research data are intended to work without a GitHub account, personal access token, or other user credential. The desktop app should fetch public data over HTTPS and use bounded caching. It should clearly indicate current, cached, stale, and unavailable states.
+Optional contribution uses GitHub App device sign-in and a separately deployed server. The desktop never contains the App private key or installation credential; contributors do not configure personal access tokens. The service validates a submission and opens a reviewable PR. It never merges or advances the public checkpoint. Until maintainers configure the App and deploy the service, sign-in stays disabled while public and local features work normally.
 
-The current Python client reads only the preliminary checkpoint/record format in this repository. It is not yet proof that the final desktop application's manifest/range integration is connected.
-
-## Local-first behavior
-
-- Save numerical results and experiment state locally first.
-- Network availability must never block computation or local persistence.
-- Offline or rejected publication must leave local data unchanged.
-- Keep cached public data visibly marked as stale when a refresh fails.
-- Candidate rows, attempted ranges, and a high-water setting are not completed verified results.
-
-## Contributions and publishing
-
-The current public read client intentionally has no write method. Contributions should be submitted through reviewed pull requests.
-
-Ordinary application users must never be required to configure a GitHub personal access token. Do not embed permanent repository credentials, GitHub App private keys, or server secrets in the desktop executable.
-
-If direct in-app publishing is introduced later, use a trusted server-side contribution service with narrowly scoped GitHub App credentials held only on the server. Apply authentication, rate limiting, validation, human review, and concurrency-safe checkpoint updates. Do not permit anonymous clients to write directly to the main branch.
-
-## Research boundary and scientific limits
-
-The approved first required index in the desktop project is 10,000,000,000,000. That is a configured boundary, not a computed result. The completed global checkpoint remains uninitialized until genuine contiguous research records have been accepted.
-
-Repository validation checks structure and declared metadata. It does not independently recompute the zeta function. Finite numerical verification is not a proof of the Riemann Hypothesis.
+The repository validator checks structure, declared verification metadata, content hashes, and consecutive coverage. It does not independently compute or certify a zero, and a finite numerical result is not a proof of the Riemann Hypothesis.

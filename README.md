@@ -1,74 +1,53 @@
-# RiemannSearch Research Network
+# RiemannSearch Global Research Network
 
-[![Research data validation](https://github.com/lumina-dev-ace/Riemann-Search-for-App/actions/workflows/validate.yml/badge.svg?branch=main)](https://github.com/lumina-dev-ace/Riemann-Search-for-App/actions/workflows/validate.yml)
+[![Research validation](https://github.com/lumina-dev-ace/Riemann-Search-for-App/actions/workflows/validate.yml/badge.svg?branch=main)](https://github.com/lumina-dev-ace/Riemann-Search-for-App/actions/workflows/validate.yml)
 [![CodeQL](https://github.com/lumina-dev-ace/Riemann-Search-for-App/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/lumina-dev-ace/Riemann-Search-for-App/actions/workflows/codeql.yml)
 
-A public research-data repository and static progress dashboard for RiemannSearch. The desktop application performs local numerical work; this repository is intended to hold reviewed, shareable research records and public progress metadata.
+This public repository is the single source of shared RiemannSearch progress. The desktop application performs numerical computation and keeps local research in each user's database. Public synchronization is read-only and works without a GitHub account or token.
 
-## Current status
+## Current approved boundary
 
-- **Global verified checkpoint:** not initialized.
-- **Accepted research records:** none.
-- **First required index in the current desktop project:** 10,000,000,000,000.
-- **Completed research:** none is implied by that starting boundary.
+- First required zero index: `10,000,000,002,278`.
+- Global completed checkpoint: `null`.
+- Accepted ranges: `0`.
 
-The approved first-required index is a boundary, not a computed result. The global checkpoint must remain uninitialized until genuine, contiguous, verified research records have been reviewed and accepted.
+The first required index is the next starting boundary for this network, not a completed result. It follows the legacy desktop's latest locally completed index, `10,000,000,002,277`. Earlier local results have not been imported as accepted global records. No global progress is claimed until valid, consecutive, Arb-rechecked result records are accepted by maintainers.
 
-> **Integration status:** this repository currently contains an initial checkpoint-and-record data contract. The final desktop implementation described in the project handoff uses a manifest-and-range contract under `data/global_manifest.json` and `data/ranges/`. These formats must be reconciled before the desktop application is allowed to publish or treat this repository as its authoritative network. Do not publish research using two competing formats.
+## Canonical layout
 
-## Repository layout
+- `data/global_manifest.json`: authoritative checkpoint and range references.
+- `data/ranges/`: immutable accepted result records.
+- `data/schema/`: versioned manifest and result schemas.
+- `progress/`: static view of the manifest and referenced records.
+- `research_network.py`: public read, validation, and export functions used by the optional service.
+- `services/contribution_api/`: optional GitHub App proposal service; disabled until maintainers configure and deploy it.
+- `tools/` and `tests/`: repository validation and bounded regression checks.
 
-| Path | Purpose |
-| --- | --- |
-| `global/` | Initial checkpoint metadata scaffold |
-| `records/` | Initial record storage scaffold |
-| `schemas/` | Versioned JSON contracts for the current scaffold |
-| `riemann_network/` | Read-only Python client for the current scaffold |
-| `tools/` | Data and website validation plus dashboard-data generation |
-| `website/` | Static public progress dashboard |
-| `.github/workflows/` | CI, security analysis, and Pages deployment |
-| `docs/` | Architecture, integration, data-format, and repository-operation guidance |
-
-See [Architecture](docs/ARCHITECTURE.md) for the data flow and [Repository setup](docs/REPOSITORY_SETUP.md) for the one-time GitHub settings.
+The obsolete `global/`, `records/`, `schemas/`, `riemann_network/`, and `website/` formats are removed from this migration branch. Do not reintroduce a competing checkpoint representation.
 
 ## Local validation
 
-Python 3.10 or later is required. The validator and tests use the Python standard library.
+Python 3.10 or later is required for the standard-library validator and reader tests. Optional contribution-service tests require the pinned dependencies in `services/contribution_api/requirements-test.txt`.
 
-```bash
-python -m compileall -q tools riemann_network
-python tools/validate_network.py
-python -m unittest discover -s tools -p "test_*.py" -v
-python -m unittest riemann_network.test_client -v
-python tools/build_site_data.py
-python tools/validate_site.py
-node --check website/app.js
+```powershell
+python -m pip install -r services/contribution_api/requirements-test.txt
+python -m compileall -q tools research_network.py services
+python tools/validate_research_repository.py
+python -m unittest discover -s tests -p "test_*.py" -v
+python tools/validate_website.py
+node --check progress/app.js
 ```
 
-To preview the website locally:
+The Pages workflow publishes after a maintainer-approved change reaches `main`; it has explicit deployment permissions and can also be run manually.
 
-```bash
-python -m http.server 8000 --directory website
-```
+## Access and contributions
 
-Then open `http://localhost:8000`. Do not open the HTML file directly because the page fetches its JSON data.
+Anyone can install and use the desktop app, synchronize public data, compute locally, save results, and export JSON without a GitHub account. In-app submissions are optional: a configured GitHub App service authenticates contributors, validates submissions, and opens reviewable pull requests. The service keeps its private key on the server and cannot merge a proposal or advance the checkpoint. Maintainers review and accept a consecutive range through repository review and CI. See [publishing](docs/PUBLISHING.md), [contributing](docs/CONTRIBUTING.md), and [security](SECURITY.md).
 
-## Research integrity
+## Scientific integrity
 
-The repository validator checks data shape, unique and contiguous indices, interval ordering, declared FLINT/Arb verification metadata, and checkpoint consistency. It does not independently recompute the zeta function or establish that a contributor's declared computation is correct. Review and reproducibility remain necessary.
+Repository validation checks the declared schema, integrity hashes, result/index association, metadata, and consecutive coverage. It does not recompute a zero or establish a theorem. A numerical approximation or finite interval recheck is not a proof of the Riemann Hypothesis.
 
-Finite numerical verification, regardless of scale or precision, is not a proof of the Riemann Hypothesis.
+## License
 
-## Public access and contributions
-
-Browsing published research and downloading the public checkpoint are intended to require no GitHub account or personal access token. Submissions are separate from normal application use and are currently expected through reviewed pull requests.
-
-The final desktop application must not require ordinary users to configure GitHub credentials. Any future direct-publishing service must keep its GitHub App private key and installation credentials server-side. See [Integration](docs/INTEGRATION.md) and [Security](SECURITY.md).
-
-## Contribution and support
-
-Read [Contributing](docs/CONTRIBUTING.md) before submitting changes. Use the issue forms for reproducible bugs or data-contract questions. For security reports, follow [Security](SECURITY.md).
-
-## Licensing
-
-No software or research-data license has been selected yet. See [LICENSE-STATUS.md](LICENSE-STATUS.md). Public visibility does not automatically grant reuse or redistribution rights.
+No software or research-data license has been selected. See [LICENSE-STATUS.md](LICENSE-STATUS.md); public visibility does not grant reuse rights.

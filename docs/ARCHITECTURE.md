@@ -1,79 +1,24 @@
 # Repository architecture
 
-## Purpose
+The GitHub repository is the only public source for shared progress. The desktop app uses the unauthenticated GitHub API and immutable raw URLs to fetch `data/global_manifest.json` and every referenced range file. It validates schema versions, manifest and file hashes, exact index strings, consecutive coverage, and recorded FLINT/Arb metadata before displaying a live checkpoint.
 
-This repository is intended to provide a public, reviewable research-data network and static progress dashboard for RiemannSearch. The desktop application is responsible for numerical computation and local persistence. The public repository should contain only records and metadata approved for sharing.
-
-## Current repository structure
+Local computation, persistence, and export stay independent of GitHub. A missing or unavailable public manifest cannot overwrite local results. A cached import is shown as cached/stale and cannot authorize a new global continuation until a live refresh succeeds.
 
 ```text
-.github/
-  ISSUE_TEMPLATE/
-  workflows/
-docs/
-global/
-  checkpoint.json
-records/
-riemann_network/
-schemas/
-tools/
-website/
-  data/
+Local FLINT/Arb computation -> local SQLite and checkpoint
+                               | explicit export or optional submission
+                               v
+                     validated range proposal
+                               v
+                     maintainer review and CI
+                               v
+              data/global_manifest.json + data/ranges/
+                               v
+          public desktop synchronization and progress site
 ```
 
-- `global/checkpoint.json` contains the current scaffold's checkpoint metadata.
-- `records/` contains immutable research-record JSON files.
-- `schemas/` defines the current scaffold's data contracts.
-- `riemann_network/` provides read-only public access.
-- `tools/` validates the data and generates dashboard data.
-- `website/` is a dependency-free static site.
+The canonical contract is `data/global_manifest.json`, `data/ranges/`, and versioned schemas under `data/schema/`. The legacy `global/`, `records/`, `schemas/`, `riemann_network/`, and `website/` trees are retired and must not be used by the desktop or site.
 
-## Data flow intended by this scaffold
+The next network computation starts at `10,000,000,002,278`, following the legacy desktop's latest locally completed index, `10,000,000,002,277`. This starting boundary is not published progress. The current checkpoint remains `null` with no accepted ranges. The validator checks structure and integrity, not the truth of a contributor's numerical claim. Finite numerical work is not a proof of the Riemann Hypothesis.
 
-```text
-Desktop local computation
-        |
-        v
-Local database and export
-        |
-        v
-Research record proposal
-        |
-        v
-Pull request and human review
-        |
-        v
-Repository validator and CI
-        |
-        v
-Accepted repository data
-        |
-        v
-Static dashboard build and Pages deployment
-        |
-        v
-Read-only desktop synchronization
-```
-
-Local computation and local persistence must never depend on GitHub availability. Public synchronization is read-only. Publication is a separate action and must not rely on a permanent write credential embedded in the desktop executable.
-
-## Contract alignment is a release gate
-
-The final desktop implementation handoff describes a different canonical network contract:
-
-- `data/global_manifest.json`
-- `data/ranges/`
-- `data/schema/`
-- `progress/`
-
-The files currently in this repository use an earlier `global/checkpoint.json` and `records/` contract. These are not interchangeable. The desktop integration phase must inspect the actual final application code and migrate this repository to one canonical contract before any real app-generated research is published.
-
-The current repository data is an empty scaffold. It is not evidence of completed computation. The approved first required index is 10,000,000,000,000, while the completed global checkpoint is still uninitialized.
-
-## Scientific trust boundaries
-
-The repository validator checks structural integrity, declared verification metadata, sequence continuity, and checkpoint consistency. It does not recompute the zeta function. Reviewers must examine provenance and reproducibility before accepting research data. A finite numerical computation or recheck is not a proof of the Riemann Hypothesis.
-
-## Deployment
-
-GitHub Actions validates data and builds the static site. GitHub Pages must be enabled by a repository owner with **Settings → Pages → Source → GitHub Actions**. See [Repository setup](REPOSITORY_SETUP.md).
+The optional proposal service uses a GitHub App installation credential held only on its server. Public reads, local computation, saving, and export need no account. The service creates proposal branches and pull requests; it cannot merge them or directly update the main checkpoint.

@@ -3,11 +3,12 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "riemannsearch-network"
-version = "0.1.0"
-description = "Read-only public research-network client for RiemannSearch"
+name = "riemannsearch-research-network"
+version = "1.0.0"
+description = "Canonical public research data and validation tools for RiemannSearch"
 requires-python = ">=3.10"
 dependencies = []
 
-[tool.setuptools.packages.find]
-include = ["riemann_network*"]
+[tool.setuptools]
+py-modules = ["research_network"]
+packages = ["services", "services.contribution_api"]

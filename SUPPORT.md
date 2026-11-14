@@ -11,4 +11,4 @@ Use bug reports for reproducible problems in the repository tools or website. Us
 
 Do not post API tokens, passwords, private database files, personal information, or unredacted diagnostic logs. For suspected vulnerabilities, follow [SECURITY.md](SECURITY.md) instead of opening a public issue.
 
-This repository currently hosts the public network scaffold and progress site; it is not a download page for the full desktop application.
+This repository hosts the public research network and progress site; it is not a download page for the full desktop application.

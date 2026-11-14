@@ -2,33 +2,20 @@
 
 ## Scope
 
-This repository contains public research metadata, validation utilities, and a static website. The desktop application source and private user databases are not intended to be stored here.
+This repository contains public research metadata, validation utilities, a static progress site, and optional contribution-service source. Private user databases and local profiles must not be committed.
 
 ## No credential required for public use
 
-Public research browsing and checkpoint downloads are intended to work without a GitHub account or personal access token. A desktop user must never be asked to paste a GitHub token merely to install the application, synchronize public data, run a local experiment, or save local results.
+Public synchronization, local computation, saving, and export work without GitHub authentication. The desktop must not contain a PAT, GitHub App private key, installation token, or service signing secret. Optional contributor sign-in is only for proposal submission. App private keys and installation credentials belong in the trusted service's secret store.
 
-The desktop executable must not contain a permanent GitHub credential, GitHub App private key, or server secret. Public reads should use unauthenticated HTTPS with sensible caching. Any future direct-publishing service must hold narrowly scoped GitHub App credentials server-side.
+## Proposal boundary
+
+The service may validate submissions and create a reviewable branch/PR. It must not merge proposals or directly modify the default branch. Enforce rate limits, exact repository and permissions, stale-base checks, schema/hash/consecutive-index validation, and human maintainer review.
 
 ## Do not publish secrets or private data
 
-Never put any of the following in an issue, pull request, commit, research record, workflow log, or website:
+Never commit GitHub tokens, passwords, private keys, recovery codes, private databases, application profiles, personal contact details, or unredacted diagnostic logs. Use private vulnerability reporting for security issues; do not post exploit details publicly while a vulnerability is unresolved.
 
-- GitHub tokens, passwords, private keys, or recovery codes.
-- Private database files, local application profiles, or unreviewed experiment exports.
-- Personal email addresses, home addresses, account identifiers, or other private contributor information.
-- Diagnostic logs before checking and redacting them.
+## Research integrity
 
-## Reporting a vulnerability
-
-Please do not open a public issue for a suspected vulnerability. Use the repository's **Security** tab and **Report a vulnerability** option if private vulnerability reporting is enabled. If that option is unavailable, contact the repository maintainer through a private channel already known to you and provide only the minimum details needed to reproduce the issue.
-
-Do not attach sensitive files to public issues.
-
-## Maintainer response
-
-The maintainer should acknowledge a private report, assess impact, prepare a fix, and coordinate disclosure after a patched version or mitigation is available. Do not publish exploit details while a vulnerability is unresolved.
-
-## Research-data integrity
-
-A validator pass is a structural check, not an independent mathematical recomputation. Suspected fabricated, altered, or incorrectly described research data should be reported privately to the maintainer for review; do not present finite numerical verification as a proof of the Riemann Hypothesis.
+A passing schema/hash validator is not independent mathematical verification. Review provenance and numerical details. A finite numerical calculation is not a proof of the Riemann Hypothesis.

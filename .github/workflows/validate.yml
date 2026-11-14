@@ -1,8 +1,8 @@
-name: Validate research data
+name: Validate research network
 
 on:
   push:
-    branches: [main, "hardening/**"]
+    branches: [main, "hardening/**", "codex/**"]
   pull_request:
   workflow_dispatch:
 
@@ -15,35 +15,23 @@ concurrency:
 
 jobs:
   validate:
-    name: validate
+    name: validate canonical manifest and ranges
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v7
-
-      - name: Set up Python
-        uses: actions/setup-python@v7
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
-
       - name: Check Python syntax
-        run: python -m compileall -q tools riemann_network
-
-      - name: Validate research records and checkpoint
-        run: python tools/validate_network.py
-
-      - name: Test repository validator
-        run: python -m unittest discover -s tools -p "test_*.py" -v
-
-      - name: Test read-only desktop network client
-        run: python -m unittest riemann_network.test_client -v
-
-      - name: Build dashboard data
-        run: python tools/build_site_data.py
-
-      - name: Validate dashboard structure and data
-        run: python tools/validate_site.py
-
-      - name: Check dashboard JavaScript syntax
-        run: node --check website/app.js
+        run: python -m compileall -q tools research_network.py services
+      - name: Validate manifest and accepted ranges
+        run: python tools/validate_research_repository.py
+      - name: Install optional service test dependencies
+        run: python -m pip install -r services/contribution_api/requirements-test.txt
+      - name: Run bounded repository, client, and service tests
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+      - name: Validate the static progress site
+        run: python tools/validate_website.py
+      - name: Check JavaScript syntax
+        run: node --check progress/app.js
