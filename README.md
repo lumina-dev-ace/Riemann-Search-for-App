@@ -7,11 +7,11 @@ This public repository is the single source of shared RiemannSearch progress. Th
 
 ## Current approved boundary
 
-- First required zero index: `10,000,000,000,000`.
+- First required zero index: `10,000,000,002,278`.
 - Global completed checkpoint: `null`.
 - Accepted ranges: `0`.
 
-The first required index is a boundary, not a computed result. No global progress is claimed until valid, consecutive, Arb-rechecked result records are accepted by maintainers. Failed historical local rows were not imported.
+The first required index is the next starting boundary for this network, not a completed result. It follows the legacy desktop's latest locally completed index, `10,000,000,002,277`. Earlier local results have not been imported as accepted global records. No global progress is claimed until valid, consecutive, Arb-rechecked result records are accepted by maintainers.
 
 ## Canonical layout
 

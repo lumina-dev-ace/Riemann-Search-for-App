@@ -21,4 +21,4 @@ Contributors may also export a validated local record and submit it through the 
 5. Set the desktop's optional service URL only after HTTPS and health/config checks pass. Public reads continue without it.
 6. Review and merge genuine contiguous proposals through protected-branch review. A successful validator is structural evidence, not an independent mathematical recomputation.
 
-The approved first-required index is `10,000,000,000,000`; the current checkpoint is `null` with no accepted ranges. Failed historical local database rows were not included.
+The configured first-required index is `10,000,000,002,278`, the next index after the legacy desktop's latest locally completed index, `10,000,000,002,277`. That prior local work has not been imported as accepted global records. The global checkpoint remains `null` with no accepted ranges.

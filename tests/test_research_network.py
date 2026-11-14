@@ -22,7 +22,7 @@ from research_network import (
 )
 
 
-FIRST = 10_000_000_000_000
+FIRST = 10_000_000_002_278
 COMMIT = "a" * 40
 
 

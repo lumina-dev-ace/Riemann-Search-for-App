@@ -27,7 +27,7 @@ class RepositoryManifestTests(unittest.TestCase):
 
     def test_approved_initial_manifest_has_no_fabricated_progress(self):
         self.assertEqual(self.initial["status"], "initialized")
-        self.assertEqual(self.initial["first_required_index"], "10000000000000")
+        self.assertEqual(self.initial["first_required_index"], "10000000002278")
         self.assertIsNone(self.initial["global_checkpoint_index"])
         self.assertEqual(self.initial["accepted_ranges"], [])
         validator.validate()

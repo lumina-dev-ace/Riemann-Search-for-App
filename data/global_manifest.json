@@ -3,13 +3,13 @@
   "network_id": "riemannsearch-global-research",
   "status": "initialized",
   "initialized_at": "2026-11-13T13:56:58Z",
-  "first_required_index": "10000000000000",
+  "first_required_index": "10000000002278",
   "global_checkpoint_index": null,
   "accepted_ranges": [],
   "publication_history": [],
   "last_updated_at": null,
   "integrity": {
     "algorithm": "sha256",
-    "sha256": "a5424cea0f1759dac6b0a03ffc1c235a79104aea30a1eb28ed460387345a9be1"
+    "sha256": "8fab365c55c2e94caa51dc339bde20b2da893c8385687e269741b618811fb007"
   }
 }

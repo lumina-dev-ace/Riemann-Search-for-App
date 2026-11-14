@@ -4,7 +4,7 @@ The repository is the single public source of global progress. `data/global_mani
 
 ## Network initialization
 
-An `uninitialized` manifest has null `first_required_index` and null `global_checkpoint_index`, and empty range/history arrays. It makes no claim about a starting point. After maintainer approval, an `initialized` manifest names `first_required_index`. The current approved first index is 10,000,000,000,000. Before any accepted work, `global_checkpoint_index` remains null; the first index is a boundary, not a computed result. The website therefore displays that no range has yet been accepted instead of presenting a fabricated completed count.
+An `uninitialized` manifest has null `first_required_index` and null `global_checkpoint_index`, and empty range/history arrays. It makes no claim about a starting point. An `initialized` manifest names `first_required_index`, which is the next index from which this network accepts work. The configured start is 10,000,000,002,278, immediately after the legacy desktop's latest locally completed index, 10,000,000,002,277. This starting boundary is not itself a published result. Before any accepted work, `global_checkpoint_index` remains null and the website displays that no range has yet been accepted.
 
 After publication, `global_checkpoint_index` must equal the final result index of the consecutive accepted ranges beginning exactly at `first_required_index`. Every next range must start at the prior endpoint plus one. Gaps, overlaps, duplicates, stale-base commits, or a range endpoint that disagrees with its actual result list are rejected.
 

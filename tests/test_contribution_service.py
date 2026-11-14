@@ -20,7 +20,7 @@ from services.contribution_api.app import (
 )
 
 
-FIRST = 10_000_000_000_000
+FIRST = 10_000_000_002_278
 
 
 def valid_record(start: int = FIRST) -> dict:

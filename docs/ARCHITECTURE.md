@@ -19,6 +19,6 @@ Local FLINT/Arb computation -> local SQLite and checkpoint
 
 The canonical contract is `data/global_manifest.json`, `data/ranges/`, and versioned schemas under `data/schema/`. The legacy `global/`, `records/`, `schemas/`, `riemann_network/`, and `website/` trees are retired and must not be used by the desktop or site.
 
-The first required index is `10,000,000,000,000`; it is not completed progress. The current initial checkpoint is `null` with no accepted ranges. The validator checks structure and integrity, not the truth of a contributor's numerical claim. Finite numerical work is not a proof of the Riemann Hypothesis.
+The next network computation starts at `10,000,000,002,278`, following the legacy desktop's latest locally completed index, `10,000,000,002,277`. This starting boundary is not published progress. The current checkpoint remains `null` with no accepted ranges. The validator checks structure and integrity, not the truth of a contributor's numerical claim. Finite numerical work is not a proof of the Riemann Hypothesis.
 
 The optional proposal service uses a GitHub App installation credential held only on its server. Public reads, local computation, saving, and export need no account. The service creates proposal branches and pull requests; it cannot merge them or directly update the main checkpoint.
