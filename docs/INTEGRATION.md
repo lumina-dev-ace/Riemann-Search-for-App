@@ -1,48 +1,33 @@
 # Desktop application integration
 
-This repository now includes the credential-free Python read client in `riemann_network/`, as well as the public data contract, validator, and static dashboard. The RiemannSearch desktop application source itself is not currently in this repository, so this commit cannot yet wire the client into its PySide screens.
+This repository currently includes an initial credential-free read client in `riemann_network/`, a preliminary checkpoint/record contract, a structural validator, and a static dashboard.
 
-## Reading the network
+**Important:** the final desktop application handoff describes a different canonical format based on `data/global_manifest.json`, `data/ranges/`, `data/schema/`, and `progress/`. The current repository's `global/checkpoint.json` and `records/` format is not interchangeable. The desktop integration phase must reconcile the formats before using this repository as the authoritative research network. Do not publish real app-generated data through both formats.
 
-The client is standard-library-only and reads the public `global/checkpoint.json` and `records/*.json` files. Example:
+## Intended public access
 
-```python
-from riemann_network import NetworkClient, NetworkUnavailableError
+Public browsing and downloading research data are intended to work without a GitHub account, personal access token, or other user credential. The desktop app should fetch public data over HTTPS and use bounded caching. It should clearly indicate current, cached, stale, and unavailable states.
 
-client = NetworkClient(cache_dir="path/to/app-cache")
-try:
-    checkpoint = client.get_checkpoint()
-    if checkpoint.stale:
-        # Show that this is cached/offline data in the UI.
-        pass
-    if checkpoint.data.status == "initialized":
-        highest = checkpoint.data.highest_verified_index
-    else:
-        highest = None  # Never treat uninitialized as zero.
-    record_names = client.list_records()
-except NetworkUnavailableError:
-    # Keep the app usable; local computation and saving continue offline.
-    pass
-```
+The current Python client reads only the preliminary checkpoint/record format in this repository. It is not yet proof that the final desktop application's manifest/range integration is connected.
 
-Use HTTPS and a configurable repository/ref. The client labels stale cache responses. The app should show last-sync status and must not block computation while fetching remote data.
-
-## Publishing workflow
-
-Publishing must be a separate, explicit action after local persistence:
-1. Export the exact contiguous sequence from the latest global checkpoint + 1 through the proposed end index.
-2. Confirm every index exists exactly once and that all entries intended for checkpoint advancement are Arb-interval verified.
-3. Fetch the latest checkpoint immediately before submitting the proposal.
-4. Reject proposals that overlap, skip indices, or fail to extend the current global checkpoint.
-5. Submit the record and checkpoint proposal for maintainer review.
-6. After acceptance, re-read the repository and store the resulting commit SHA locally.
-
-The read client intentionally has no write method. A client-side read-then-write flow is not race-safe. Direct publishing requires a trusted server-side transaction or a carefully serialized compare-and-swap update. Never force-push. Never embed a permanent personal access token, GitHub App private key, or other secret in the desktop executable.
-
-## Local-first guarantees
+## Local-first behavior
 
 - Save numerical results and experiment state locally first.
-- Offline or rejected publication leaves local data unchanged.
-- The global checkpoint never decreases.
-- Keep rejected exports available for review and retry.
-- Candidate rows, attempted ranges, and a high-water setting are not completed consecutive zeros.
+- Network availability must never block computation or local persistence.
+- Offline or rejected publication must leave local data unchanged.
+- Keep cached public data visibly marked as stale when a refresh fails.
+- Candidate rows, attempted ranges, and a high-water setting are not completed verified results.
+
+## Contributions and publishing
+
+The current public read client intentionally has no write method. Contributions should be submitted through reviewed pull requests.
+
+Ordinary application users must never be required to configure a GitHub personal access token. Do not embed permanent repository credentials, GitHub App private keys, or server secrets in the desktop executable.
+
+If direct in-app publishing is introduced later, use a trusted server-side contribution service with narrowly scoped GitHub App credentials held only on the server. Apply authentication, rate limiting, validation, human review, and concurrency-safe checkpoint updates. Do not permit anonymous clients to write directly to the main branch.
+
+## Research boundary and scientific limits
+
+The approved first required index in the desktop project is 10,000,000,000,000. That is a configured boundary, not a computed result. The completed global checkpoint remains uninitialized until genuine contiguous research records have been accepted.
+
+Repository validation checks structure and declared metadata. It does not independently recompute the zeta function. Finite numerical verification is not a proof of the Riemann Hypothesis.
