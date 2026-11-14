@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lumina-dev-ace/Riemann-Search-for-App/blob/main/data/schema/global_manifest.schema.json",
+  "title": "RiemannSearch Global Research Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "network_id", "status", "initialized_at",
+    "first_required_index", "global_checkpoint_index", "accepted_ranges",
+    "publication_history", "last_updated_at", "integrity"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "network_id": { "const": "riemannsearch-global-research" },
+    "status": { "enum": ["uninitialized", "initialized"] },
+    "initialized_at": { "type": ["string", "null"] },
+    "first_required_index": { "type": ["string", "null"], "pattern": "^(0|[1-9][0-9]*)$" },
+    "global_checkpoint_index": { "type": ["string", "null"], "pattern": "^(0|[1-9][0-9]*)$" },
+    "accepted_ranges": { "type": "array", "items": { "$ref": "#/$defs/acceptedRange" } },
+    "publication_history": { "type": "array", "items": { "$ref": "#/$defs/publication" } },
+    "last_updated_at": { "type": ["string", "null"] },
+    "integrity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["algorithm", "sha256"],
+      "properties": {
+        "algorithm": { "const": "sha256" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    }
+  },
+  "$defs": {
+    "acceptedRange": {
+      "type": "object", "additionalProperties": false,
+      "required": ["start_index", "end_index", "record_path", "sha256", "verification_status", "contributor_id", "published_at"],
+      "properties": {
+        "start_index": { "type": "string", "pattern": "^[1-9][0-9]*$" },
+        "end_index": { "type": "string", "pattern": "^[1-9][0-9]*$" },
+        "record_path": { "type": "string", "pattern": "^data/ranges/[A-Za-z0-9._-]+\\.json$" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "verification_status": { "enum": ["verified", "certified_interval_rechecked"] },
+        "contributor_id": { "type": "string", "minLength": 1 },
+        "published_at": { "type": "string", "minLength": 1 }
+      }
+    },
+    "publication": {
+      "type": "object", "additionalProperties": false,
+      "required": ["published_at", "start_index", "end_index", "record_path", "contributor_id"],
+      "properties": {
+        "published_at": { "type": "string", "minLength": 1 },
+        "start_index": { "type": "string", "pattern": "^[1-9][0-9]*$" },
+        "end_index": { "type": "string", "pattern": "^[1-9][0-9]*$" },
+        "record_path": { "type": "string", "minLength": 1 },
+        "contributor_id": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

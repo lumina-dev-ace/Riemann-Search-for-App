@@ -8,7 +8,7 @@ This repository does not yet publish desktop binaries. This procedure covers pub
 - Confirm each record follows the current repository schema.
 - Verify record IDs, timestamps, index continuity, interval endpoints, backend, precision, and verification metadata.
 - Confirm that no personal information, credential, private database, or local profile is included.
-- Run the repository validator and both test suites.
+- Run the canonical manifest/range validator, all bounded repository and service tests, static progress-site checks, and JavaScript syntax validation.
 
 ## Review
 

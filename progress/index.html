@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101722">
+  <meta name="description" content="Inspect the public, consecutively validated RiemannSearch research checkpoint and published numerical ranges.">
+  <title>RiemannSearch · Global Research Progress</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <a class="brand" href="./" aria-label="RiemannSearch global research progress home">
+        <span class="brand-mark" aria-hidden="true">R</span>
+        <span>RIEMANN<span class="brand-light">SEARCH</span></span>
+      </a>
+      <a class="repo-link" href="https://github.com/lumina-dev-ace/Riemann-Search-for-App" rel="noreferrer">Research repository ↗</a>
+    </header>
+
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow">GLOBAL RESEARCH CHECKPOINT</p>
+      <h1 id="page-title">Consecutive numerical research, shared in the open.</h1>
+      <div id="checkpoint" class="checkpoint" aria-live="polite">Loading validated research data…</div>
+      <p id="checkpoint-explanation" class="explanation">The checkpoint appears only after the repository manifest and its referenced records pass integrity and sequence checks.</p>
+      <div class="status-row">
+        <span id="network-status" class="status status-loading">Checking repository</span>
+        <span id="last-updated" class="meta">Last published update: —</span>
+      </div>
+    </section>
+
+    <section class="metrics" aria-label="Validated research statistics">
+      <article class="metric"><span>Accepted ranges</span><strong id="range-count">—</strong></article>
+      <article class="metric"><span>Verified ranges</span><strong id="verified-count">—</strong></article>
+      <article class="metric"><span>Contributors</span><strong id="contributor-count">—</strong></article>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <div class="card-heading"><div><p class="eyebrow">PUBLICATION LOG</p><h2>Recent accepted ranges</h2></div></div>
+        <p id="history-empty" class="muted">No published ranges are available.</p>
+        <ol id="history-list" class="history" aria-live="polite"></ol>
+      </article>
+      <article class="card about-card">
+        <p class="eyebrow">HOW TO READ THIS PAGE</p>
+        <h2>What the checkpoint means</h2>
+        <p>The checkpoint is the end of the highest consecutively accepted range, beginning at the network’s approved first required index. A range is included only when its saved result indices are consecutive and its record integrity and FLINT/Arb verification metadata validate.</p>
+        <p>Finite numerical computations do not prove or disprove the Riemann Hypothesis. A same-method recheck is not an independent mathematical proof.</p>
+        <div class="downloads">
+          <a href="https://raw.githubusercontent.com/lumina-dev-ace/Riemann-Search-for-App/main/data/global_manifest.json" rel="noreferrer">Download current manifest ↗</a>
+          <a href="https://github.com/lumina-dev-ace/Riemann-Search-for-App/tree/main/data/ranges" rel="noreferrer">Browse research records ↗</a>
+          <a href="https://github.com/lumina-dev-ace/Riemann-Search-for-App/tree/main/docs" rel="noreferrer">Research documentation ↗</a>
+        </div>
+      </article>
+    </section>
+
+    <footer><span>Data source: <a href="https://github.com/lumina-dev-ace/Riemann-Search-for-App">lumina-dev-ace/Riemann-Search-for-App</a></span><span id="source-commit">Manifest commit: —</span></footer>
+  </main>
+</body>
+</html>

@@ -1,16 +1,11 @@
-name: Deploy research dashboard
+name: Deploy research progress site
 
 on:
   push:
     branches: [main]
     paths:
-      - "website/**"
-      - "global/**"
-      - "records/**"
-      - "schemas/**"
-      - "tools/build_site_data.py"
-      - "tools/validate_network.py"
-      - "tools/validate_site.py"
+      - "data/**"
+      - "progress/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -25,39 +20,29 @@ concurrency:
 
 jobs:
   build:
-    name: build-site
+    name: validate-and-build
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v7
-
-      - name: Set up Python
-        uses: actions/setup-python@v7
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
-
-      - name: Validate repository data
+      - name: Validate manifest and accepted ranges
+        run: python tools/validate_research_repository.py
+      - name: Validate progress site and JavaScript
         run: |
-          python tools/validate_network.py
-          python -m unittest discover -s tools -p "test_*.py" -v
-          python -m unittest riemann_network.test_client -v
-
-      - name: Generate dashboard data
-        run: python tools/build_site_data.py
-
-      - name: Validate generated dashboard
+          python tools/validate_website.py
+          node --check progress/app.js
+      - uses: actions/configure-pages@v6
+      - name: Assemble site with canonical public data
         run: |
-          python tools/validate_site.py
-          node --check website/app.js
-
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v6
-
-      - name: Upload website artifact
-        uses: actions/upload-pages-artifact@v5
+          mkdir -p public/data
+          cp -R progress/. public/
+          cp -R data/. public/data/
+      - uses: actions/upload-pages-artifact@v5
         with:
-          path: website
+          path: public
 
   deploy:
     name: deploy-site
@@ -68,6 +53,5 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v5

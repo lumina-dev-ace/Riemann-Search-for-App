@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "network_id": "riemannsearch-global-research",
+  "status": "initialized",
+  "initialized_at": "2026-11-13T13:56:58Z",
+  "first_required_index": "10000000000000",
+  "global_checkpoint_index": null,
+  "accepted_ranges": [],
+  "publication_history": [],
+  "last_updated_at": null,
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "a5424cea0f1759dac6b0a03ffc1c235a79104aea30a1eb28ed460387345a9be1"
+  }
+}

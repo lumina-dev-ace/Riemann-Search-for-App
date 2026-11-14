@@ -11,3 +11,8 @@ venv/
 *.tmp
 .DS_Store
 Thumbs.db
+coverage.xml
+htmlcov/
+.nuitka-cache/
+.cache/
+.secrets/

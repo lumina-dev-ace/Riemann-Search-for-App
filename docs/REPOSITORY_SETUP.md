@@ -1,59 +1,25 @@
-# One-time repository setup
+# Repository setup
 
-The repository contains validation and security workflows, a static dashboard, and a preliminary data-network scaffold. Some repository-level settings require an owner to configure them in GitHub Settings.
+## Public read access
 
-## 1. Enable GitHub Pages
+The repository is public. No token or GitHub account is required for desktop manifest/range synchronization, local computation, saving, or export. Do not put public-read setup behind a credential prompt.
 
-1. Open the repository **Settings**.
-2. Select **Pages** under **Code and automation**.
-3. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-4. Open **Actions** and inspect the latest **Deploy research dashboard** run.
+## Protect the main branch
 
-The workflow uses the official Pages actions and minimal deployment permissions. The initial Pages site must be enabled by a repository owner. Once enabled, qualifying pushes can deploy the static dashboard.
+Configure a ruleset for `main` that requires a pull request and the successful `validate` check. Block force pushes and limit bypass permissions. Confirm the exact status-check name from a recent workflow run before enabling the rule.
 
-## 2. Protect the main branch
+## GitHub Pages
 
-Under **Settings → Rules → Rulesets** (or **Settings → Branches**), create a ruleset targeting `main`.
+Set **Settings → Pages → Build and deployment → Source** to **GitHub Actions**. Pages publishing runs after a validated update reaches `main`, or by explicit `workflow_dispatch`. The workflow requests only contents read, Pages write, and the OIDC deployment token.
 
-Recommended rules:
+## Security workflows
 
-- Require a pull request before merging.
-- Require the `Validate research data / validate` status check after confirming its exact name in a completed workflow run.
-- Block force pushes.
-- Block branch deletion.
-- Require conversation resolution.
-- Require CODEOWNERS review when a second trusted maintainer is available.
+The repository retains PR #1's CodeQL workflow, Dependabot configuration, issue forms, security policy, and contribution guidance. Enable Dependabot alerts, security updates, push protection, and private vulnerability reporting in repository settings where available. Keep Actions' default `GITHUB_TOKEN` permissions read-only.
 
-Do not require an approval count of one while the repository has only one maintainer; authors cannot approve their own pull requests. Keep bypass rights restricted to the owner and use them sparingly.
+## Optional contribution service
 
-## 3. Enable security features
+Normal app use does not require authentication. The optional GitHub App proposal service remains disabled until an owner registers the App, configures its server-only secrets, and deploys it with persistent storage. See [publishing](PUBLISHING.md). Never embed an App private key or PAT in the desktop binary. The service opens proposal PRs only; maintainer review is required for any main-branch/checkpoint change.
 
-Under **Settings → Code security and analysis**, enable the available options for:
+## Research boundary
 
-- Dependabot alerts.
-- Dependabot security updates.
-- Secret scanning and push protection, where available for the repository.
-- Private vulnerability reporting.
-
-The repository includes a CodeQL workflow and Dependabot configuration. Those workflows do not replace repository-level security settings.
-
-## 4. Workflow permissions
-
-Under **Settings → Actions → General**, keep the default workflow token permission read-only where possible. Individual workflows request only the permissions they need. The Pages workflow needs Pages write and OIDC token permissions for deployment; validation and CodeQL do not need repository write access.
-
-## 5. Public use and contributions
-
-Public research browsing and synchronization are intended to work without a GitHub account or personal access token. A GitHub credential must not be required for normal application use. Contributions and publication are separate workflows and must be protected by review or a secure server-side publishing service.
-
-## 6. Current integration blocker
-
-The final desktop implementation handoff describes a manifest-and-range format:
-
-- `data/global_manifest.json`
-- `data/ranges/`
-- `data/schema/`
-- `progress/`
-
-This repository currently contains an earlier `global/checkpoint.json` and `records/` contract. These formats are not interchangeable. The desktop integration phase must migrate the repository to one canonical contract before the application can use it for authoritative global progress or publish app-generated research.
-
-The approved first required index is 10,000,000,000,000. It is not a completed research result. Keep the global checkpoint uninitialized until genuine consecutive verified records are accepted.
+The approved first-required index is `10,000,000,000,000`; `global_checkpoint_index` is `null`; `accepted_ranges` is empty. These values stay so until real, consecutive, verified results are reviewed and accepted. Failed local historical rows are not eligible for import.
